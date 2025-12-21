@@ -4,7 +4,8 @@ project(mymuduo
   LANGUAGES CXX
   DESCRIPTION "仿照muduo库而构建的一个网络库 ")
 
-set(CXX_STANDARD_REQUIRED 23)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 aux_source_directory(. SRC_LIST)

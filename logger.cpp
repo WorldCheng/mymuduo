@@ -1,5 +1,7 @@
 #include "logger.h"
-#include <print>
+#include "Timestamp.h"
+
+#include <iostream>
 
 Logger &Logger::instance() {
   static Logger logger;
@@ -8,19 +10,29 @@ Logger &Logger::instance() {
 
 void Logger::setLogLevel(LogLevel level) { logLevel_ = level; }
 
+#include <iostream> // 确保包含这个
+
 void Logger::log(std::string_view message) {
+  std::ostream *os = &std::cout; // 默认输出到 stdout
+
   switch (logLevel_) {
   case LogLevel::DEBUG:
-    std::print("[DEBUG]");
+    (*os) << "[DEBUG] ";
     break;
-  case LogLevel::ERROR:
-    std::print("[ERROR]");
-    break;
-  case LogLevel::FATAL:
-    std::print("[FATAL]\n");
-    break;
+
   case LogLevel::INFO:
-    std::print("[INFO]\n");
+    (*os) << "[INFO] ";
+    break;
+
+  case LogLevel::ERROR:
+    (*os) << "[ERROR] ";
+    break;
+
+  case LogLevel::FATAL:
+    (*os) << "[FATAL] ";
+    break;
   }
-  std::print("print time {}\n", message);
+
+  (*os) << TimeStamp::now(TimeStamp::Precision::Seconds) << ' ' << message
+        << '\n';
 }

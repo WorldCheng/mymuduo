@@ -4,6 +4,42 @@
 
 #include "noncopyable.h"
 
+#define LOG_INFO(logmsgFormat, ...)                                            \
+  do {                                                                         \
+    Logger &logger = Logger::instance();                                       \
+    logger.setLogLevel(INFO);                                                  \
+    char buf[1024];                                                            \
+    std::snprintf(buf, sizeof(buf), logmsgFormat, ##__VA_ARGS__);              \
+  } while (0)
+
+#define LOG_ERROR(logmsgFormat, ...)                                           \
+  do {                                                                         \
+    Logger &logger = Logger::instance();                                       \
+    logger.setLogLevel(ERROR);                                                 \
+    char buf[1024];                                                            \
+    std::snprintf(buf, sizeof(buf), logmsgFormat, ##__VA_ARGS__);              \
+  } while (0)
+
+#define LOG_FATAL(logmsgFormat, ...)                                           \
+  do {                                                                         \
+    Logger &logger = Logger::instance();                                       \
+    logger.setLogLevel(FATAL);                                                 \
+    char buf[1024];                                                            \
+    std::snprintf(buf, sizeof(buf), logmsgFormat, ##__VA_ARGS__);              \
+  } while (0)
+
+#ifdef MUDEBUG
+#define LOG_DEBUG(logmsgFormat, ...)                                           \
+  do {                                                                         \
+    Logger &logger = Logger::instance();                                       \
+    logger.setLogLevel(DEBUG);                                                 \
+    char buf[1024];                                                            \
+    std::snprintf(buf, sizeof(buf), logmsgFormat, ##__VA_ARGS__);              \
+  } while (0)
+#else
+#define LOG_DEBUG(logmsgFormat, ...)
+#endif
+
 enum LogLevel {
   INFO,
   ERROR,
