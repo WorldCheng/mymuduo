@@ -5,7 +5,7 @@
 #include <string_view>
 
 // 返回当前时间字符串（UTC）
-std::string TimeStamp::now(Precision p) {
+std::string Timestamp::now(Precision p) {
   using namespace std::chrono;
   const auto tp = system_clock::now();
   switch (p) {
@@ -29,7 +29,7 @@ std::string TimeStamp::now(Precision p) {
 
 // 可自定义 chrono 格式（不带小数部分）
 // 例如 fmt = "{:%F %T}" 或 "{:%Y%m%d-%H%M%S}"
-std::string TimeStamp::now_custom(std::string_view fmt) {
+std::string Timestamp::now_custom(std::string_view fmt) {
   using namespace std::chrono;
   auto tp = floor<seconds>(system_clock::now());
 

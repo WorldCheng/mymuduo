@@ -10,6 +10,7 @@
     logger.setLogLevel(INFO);                                                  \
     char buf[1024];                                                            \
     std::snprintf(buf, sizeof(buf), logmsgFormat, ##__VA_ARGS__);              \
+    logger.log(buf);                                                           \
   } while (0)
 
 #define LOG_ERROR(logmsgFormat, ...)                                           \
@@ -18,6 +19,7 @@
     logger.setLogLevel(ERROR);                                                 \
     char buf[1024];                                                            \
     std::snprintf(buf, sizeof(buf), logmsgFormat, ##__VA_ARGS__);              \
+    Logger.log(buf);                                                           \
   } while (0)
 
 #define LOG_FATAL(logmsgFormat, ...)                                           \
@@ -26,6 +28,7 @@
     logger.setLogLevel(FATAL);                                                 \
     char buf[1024];                                                            \
     std::snprintf(buf, sizeof(buf), logmsgFormat, ##__VA_ARGS__);              \
+    logger.log(buf);                                                           \
   } while (0)
 
 #ifdef MUDEBUG
@@ -35,6 +38,7 @@
     logger.setLogLevel(DEBUG);                                                 \
     char buf[1024];                                                            \
     std::snprintf(buf, sizeof(buf), logmsgFormat, ##__VA_ARGS__);              \
+    logger.log(buf);                                                           \
   } while (0)
 #else
 #define LOG_DEBUG(logmsgFormat, ...)

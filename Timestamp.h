@@ -1,9 +1,9 @@
 // TimeStamp.h
 #pragma once
-#include "noncopyable.h"
+
 #include <string>
 
-class TimeStamp : noncopyable {
+class Timestamp {
 public:
   enum class Precision {
     Seconds,

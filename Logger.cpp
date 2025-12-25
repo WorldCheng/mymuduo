@@ -1,4 +1,4 @@
-#include "logger.h"
+#include "Logger.h"
 #include "Timestamp.h"
 
 #include <iostream>
@@ -33,6 +33,6 @@ void Logger::log(std::string_view message) {
     break;
   }
 
-  (*os) << TimeStamp::now(TimeStamp::Precision::Seconds) << ' ' << message
+  (*os) << Timestamp::now(Timestamp::Precision::Seconds) << ' ' << message
         << '\n';
 }
