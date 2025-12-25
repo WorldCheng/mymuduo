@@ -29,6 +29,7 @@
     char buf[1024];                                                            \
     std::snprintf(buf, sizeof(buf), logmsgFormat, ##__VA_ARGS__);              \
     logger.log(buf);                                                           \
+    exit(-1);                                                                  \
   } while (0)
 
 #ifdef MUDEBUG

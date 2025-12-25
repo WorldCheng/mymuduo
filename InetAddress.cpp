@@ -1,8 +1,8 @@
 #include "InetAdress.h"
 #include <arpa/inet.h>
 #include <cstring>
+#include <format>
 #include <netinet/in.h>
-#include <print>
 
 InetAdress::InetAdress(uint16_t port, std::string ip) {
   std::memset(&addr_, 0, sizeof(addr_));
@@ -32,12 +32,3 @@ std::string InetAdress::toIpPort() const {
   return s;
 }
 uint16_t InetAdress::toPort() const { return ntohs(addr_.sin_port); }
-
-int main() {
-  InetAdress add(8080, "223.12.5.7");
-  std::println("{}", add.toIpPort());
-  std::println("{}", add.toIp());
-  std::println("{}", add.toPort());
-
-  return 0;
-}
