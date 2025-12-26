@@ -29,6 +29,8 @@ public:
   void tie(const std::shared_ptr<void> &);
   int fd() const { return fd_; }
   int events() const { return events_; }
+
+  int index() const { return index_; }
   void set_revents(int rect) { revents_ = rect; }
   bool isNoneEvent() const { return events_ == kNoneEvent; }
   void enableReading() {
@@ -53,11 +55,13 @@ public:
   }
 
   void remove();
+  void set_index(int idx) { index_ = idx; }
 
 private:
   void update();
   void handleEventWithGuard(Timestamp receiveTime);
 
+  // events_感兴趣的事件
   static const int kNoneEvent;
   static const int kReadEvent;
   static const int kWriteEvent;
@@ -66,6 +70,7 @@ private:
   const int fd_;
   int events_;
   int revents_;
+  // channel的状态
   int index_;
 
   std::weak_ptr<void> tie_;

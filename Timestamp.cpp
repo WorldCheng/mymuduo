@@ -2,37 +2,32 @@
 
 #include <chrono>
 #include <format>
-#include <string_view>
 
-// 返回当前时间字符串（UTC）
-std::string Timestamp::now(Precision p) {
+Timestamp Timestamp::now() {
   using namespace std::chrono;
-  const auto tp = system_clock::now();
-  switch (p) {
-  case Precision::Seconds: {
-    return std::format("{:%F %T}", floor<seconds>(tp));
-  }
-  case Precision::Milliseconds: {
-    auto sec = floor<seconds>(tp);
-    auto ms = duration_cast<milliseconds>(tp - sec).count();
-    return std::format("{:%F %T}.{:03}", sec, ms);
-  }
-  case Precision::Microseconds: {
-    auto sec = floor<seconds>(tp);
-    auto us = duration_cast<microseconds>(tp - sec).count();
-    return std::format("{:%F %T}.{:06}", sec, us);
-  }
-  }
-
-  return {}; // 理论不会到这
+  const auto tp = time_point_cast<microseconds>(system_clock::now());
+  return Timestamp(static_cast<Rep>(tp.time_since_epoch().count()));
 }
 
-// 可自定义 chrono 格式（不带小数部分）
-// 例如 fmt = "{:%F %T}" 或 "{:%Y%m%d-%H%M%S}"
-std::string Timestamp::now_custom(std::string_view fmt) {
+std::string Timestamp::toString() const {
   using namespace std::chrono;
-  auto tp = floor<seconds>(system_clock::now());
 
-  // 关键：vformat + make_format_args
-  return std::vformat(fmt, std::make_format_args(tp));
+  const auto tp =
+      system_clock::time_point{microseconds{microsecondsSinceEpoch_}};
+  const auto sec_tp = floor<seconds>(tp);
+  const auto us_part = duration_cast<microseconds>(tp - sec_tp).count();
+
+  std::time_t tt = system_clock::to_time_t(sec_tp);
+  std::tm tm{};
+#if defined(_WIN32)
+  localtime_s(&tm, &tt); // 本地时区
+                         // gmtime_s(&tm, &tt);    // UTC：想用就换这行
+#else
+  localtime_r(&tt, &tm);
+  // gmtime_r(&tt, &tm);
+#endif
+
+  return std::format("{:04}-{:02}-{:02} {:02}:{:02}:{:02}.{:06}",
+                     tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour,
+                     tm.tm_min, tm.tm_sec, static_cast<int>(us_part));
 }

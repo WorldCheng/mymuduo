@@ -1,0 +1,5 @@
+{
+  "code-runner.executorMap": {
+    "cpp": "clang++ -std=c++23 \"$fileName\" -o \"$fileNameWithoutExt\" && \"./$fileNameWithoutExt\""
+  }
+}

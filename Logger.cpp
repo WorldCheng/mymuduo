@@ -33,6 +33,5 @@ void Logger::log(std::string_view message) {
     break;
   }
 
-  (*os) << Timestamp::now(Timestamp::Precision::Seconds) << ' ' << message
-        << '\n';
+  (*os) << Timestamp::now().toString() << ' ' << message << '\n';
 }
